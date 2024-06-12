@@ -13,8 +13,9 @@
         <% if (produtos.length > 0){%>
         <% produtos.forEach(produto => {%>
 
-            <h3 class="title"> <%= produto.nome %></h3>
-            <p class="quantidade"> <%= produto.quantidade %></p>
+            <h3 class="title"><%= produto.nome %></h3>
+            <p class="quantidade"> quant: <%= produto.quantidade %></p>
+            <p class="quantidade"> setor: <%=produto.setor%></p><br>
         <%})%>
         <%}else{%>
         <p>Nenhuma medicação encontrada</p>

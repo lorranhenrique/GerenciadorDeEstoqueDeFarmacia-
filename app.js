@@ -23,14 +23,14 @@ app.listen(3000);
 
 //middleware static files 
 
-app.use(express.static('public'));
-app.use(morgan('dev'));
+ app.use(express.static('public'));
+ app.use(morgan('dev'));
 
 app.get('/',(req,res)=>{
     const produtos = [
-        {nome: 'nesldina', quantidade: 45},
-        {nome: 'nesldina', quantidade: 45},
-        {nome: 'nesldina', quantidade: 45}
+        {nome: 'nesaldina', quantidade: 45, setor: 'a'},
+        {nome: 'Dipirona', quantidade: 20, setor: 'b'},
+        {nome: 'Tandrilax', quantidade: 90,setor: 'c'}
     ];
     res.render('storage',{title: 'Inicio',produtos});
 });
@@ -47,12 +47,9 @@ app.use((req,res)=>{
     res.status(404).render('404',{title: '404'});
 });
 
-
-
-
-app.use(express.static('public'));
-app.use(express.urlencoded({extended: true}));
-app.use(morgan('dev'));
+// app.use(express.static('public'));
+// app.use(express.urlencoded({extended: true}));
+// app.use(morgan('dev'));
 
 //routes
 
