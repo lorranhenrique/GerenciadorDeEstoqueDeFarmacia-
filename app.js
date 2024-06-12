@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const storageRoutes = require('./routes/storageRoutes');
 
 const {result,sortedLastIndexOf}=require('lodash');
+const { title } = require('process');
 
 
 //express app
@@ -16,7 +17,38 @@ const app = express();
 
 app.set('view engine','ejs');
 
+//listen to requests 
+
+app.listen(3000);
+
 //middleware static files 
+
+app.use(express.static('public'));
+app.use(morgan('dev'));
+
+app.get('/',(req,res)=>{
+    const produtos = [
+        {nome: 'nesldina', quantidade: 45},
+        {nome: 'nesldina', quantidade: 45},
+        {nome: 'nesldina', quantidade: 45}
+    ];
+    res.render('storage',{title: 'Inicio',produtos});
+});
+
+app.get('/about', (req,res)=>{
+    res.render('about',{title: 'Sobre'});
+});
+
+app.get('/create', (req,res)=>{
+    res.render('create',{title: 'Novo'});
+});
+
+app.use((req,res)=>{
+    res.status(404).render('404',{title: '404'});
+});
+
+
+
 
 app.use(express.static('public'));
 app.use(express.urlencoded({extended: true}));
