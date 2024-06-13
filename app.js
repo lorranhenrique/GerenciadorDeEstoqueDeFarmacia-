@@ -26,7 +26,12 @@ app.listen(3000);
  app.use(express.static('public'));
  app.use(morgan('dev'));
 
+
 app.get('/',(req,res)=>{
+    res.render('login',{title: 'login'});
+})
+
+app.get('/storage',(req,res)=>{
     const produtos = [
         {nome: 'nesaldina', quantidade: 45, setor: 'a'},
         {nome: 'Dipirona', quantidade: 20, setor: 'b'},
