@@ -40,6 +40,10 @@ app.get('/storage',(req,res)=>{
     res.render('storage',{title: 'Inicio',produtos});
 });
 
+app.get('/adm/storage',(req,res)=>{
+    res.render('adm/storage',{title:'teste'});
+})
+
 app.get('/about', (req,res)=>{
     res.render('about',{title: 'Sobre'});
 });
