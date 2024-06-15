@@ -8,6 +8,11 @@
     <%- include ('./parciais/nav.ejs')%>
 
     <div class="produtos">
+        <input type="text" name="busca" id="busca" style="width: 400px;" value="" placeholder="Insira o nome do produto">
+        <button>Buscar</button>
+    </div><br><br>
+    
+    <div class="produtos">
         <h2>Todos os Produtos</h2>
 
         <% if (produtos.length > 0){%>

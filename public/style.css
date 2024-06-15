@@ -71,6 +71,14 @@
             border-left: 6px solid crimson;
         }
 
+        .produtos button{
+            background: crimson;
+            color: white;
+            border: 0;
+            font-size: 1.0em;
+            cursor: pointer;
+        }
+
         .produtos a:hover h3{
             color: crimson;
         }

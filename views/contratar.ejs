@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include ('./parciais/header.ejs')%>
+
+<body>
+    
+    <%- include ('./parciais/nav.ejs')%>
+
+    <div class="novo">
+        <form action="/storage" method="post">
+            <label for="nome">Nome do Funcionário</label>
+            <input type="text" name="nome" id="nome" required>
+            <label for="senha">Senha</label>
+            <input type="password" name="senha" id="senha" required>
+            <label for="cargo">Cargo</label>
+            <select name="cargo" id="cargo">
+                <option value="administrador">Administrador</option>
+                <option value="funcionario">Funcionário</option>
+            </select required><br>
+            <button>Cadastrar</button>
+        </form>
+    </div>
+
+    <%- include('./parciais/footer.ejs')%>
+</body>
+</html>

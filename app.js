@@ -40,8 +40,16 @@ app.get('/storage',(req,res)=>{
     res.render('storage',{title: 'Inicio',produtos});
 });
 
-app.get('/adm/storage',(req,res)=>{
-    res.render('adm/storage',{title:'teste'});
+// app.get('/adm/storage',(req,res)=>{
+//     res.render('adm/storage',{title:'teste'});
+// })
+
+app.get('/autentificar',(req,res)=>{
+    res.render('autentificar',{title: 'autentificar'});
+})
+
+app.get('/contratar',(req,res)=>{
+    res.render('contratar',{title: 'contratar'});
 })
 
 app.get('/about', (req,res)=>{
