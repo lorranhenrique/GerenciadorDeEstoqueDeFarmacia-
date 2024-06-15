@@ -23,8 +23,8 @@ app.listen(3000);
 
 //middleware static files 
 
- app.use(express.static('public'));
- app.use(morgan('dev'));
+ app.use(express.static('public')); // permite indicar os arquivos e páginas públicas 
+ app.use(morgan('dev')); // vai cuidar dos logs do middleware
 
 
 app.get('/',(req,res)=>{
