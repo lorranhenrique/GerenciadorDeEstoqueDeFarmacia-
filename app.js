@@ -39,6 +39,10 @@ app.get('/storage',(req,res)=>{
     res.redirect('/farmacos');
 });
 
+app.get('/funcionarios',(req,res)=>{
+    res.redirect('/usuarios');
+})
+
 app.get('/about', (req,res)=>{
     res.render('about',{title: 'Sobre'});
 });
@@ -52,7 +56,7 @@ app.get('/about', (req,res)=>{
 app.get('/usuarios',(req,res)=>{
     Usuario.find().sort({nome:1})
         .then((result)=>{
-            res.render('storage',{title: 'Todos os Farmacos', farmacos: result})
+            res.render('funcionarios',{title: 'Todos os Funcionarios', usuarios: result})
         })
         .catch((err)=>{
             console.log(err);
