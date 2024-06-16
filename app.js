@@ -14,8 +14,6 @@ const { title } = require('process');
 
 const app = express();
 
-
-
 //conectando o DB
 
 const dbURI = 'mongodb+srv://lorranhrezendea:test1234@farmacia.jnm2nm8.mongodb.net/dados?retryWrites=true&w=majority&appName=farmacia';
@@ -77,6 +75,16 @@ app.post('/usuarios',(req,res)=>{
             console.log(err);
         })
 })
+app.get('/usuarios/:id', (req,res)=>{
+    const id= req.params.id;
+    Usuario.findById(id)
+        .then((result)=>{
+            res.render('detalhes-Funcionario',{usuarios: result,title: 'Gerenciando Funcionário'});
+        })
+        .catch((err)=>{
+            console.log(err);
+        })
+})
 
 app.get('/farmacos',(req,res)=>{
     Farmaco.find().sort({nome:1})
@@ -93,6 +101,17 @@ app.post('/farmacos',(req,res)=>{
     farmaco.save()
         .then((result)=>{
             res.redirect('/storage');
+        })
+        .catch((err)=>{
+            console.log(err);
+        })
+})
+
+app.get('/farmacos/:id', (req,res)=>{
+    const id= req.params.id;
+    Farmaco.findById(id)
+        .then(result=>{
+            res.render('detalhes',{farmacos: result,title: 'Gerenciando Medicamento'});
         })
         .catch((err)=>{
             console.log(err);

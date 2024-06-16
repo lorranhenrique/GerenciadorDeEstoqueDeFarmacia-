@@ -17,10 +17,11 @@
 
         <% if (farmacos.length > 0){%>
         <% farmacos.forEach(farmacos => {%>
-
+        <a class="single" href="/farmacos/<%= farmacos._id %>">
             <h3 class="title"><%= farmacos.nome %></h3>
             <p class="quantidade"> quant: <%= farmacos.quantidade %></p>
             <p class="quantidade"> setor: <%=farmacos.setor%></p><br>
+        </a>
         <%})%>
         <%}else{%>
         <p>Nenhuma medicação encontrada</p>

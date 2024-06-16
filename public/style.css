@@ -84,21 +84,59 @@
             color: crimson;
         }
 
-        .details{
+
+        .detalhes{
             position:relative;
         }
+
+        .detalhes h2{
+           font-family: 'Courier New', Courier, monospace;
+           text-transform: uppercase;
+        }
+
+        .detalhes h2:hover{
+            color: crimson;
+         }
+
+        .detalhes p{
+            display: block;
+            margin: 40px 0;
+            padding-left: 30px;
+            border-left: 6px solid crimson;
+        }
+
+        .detalhes a{
+            background: crimson;
+        }
+
 
         .delete{
             position:absolute;
             top: 0;
             right: 0;
-            border-radius: 50%;
+            border-radius: 10%;
             padding: 8px;
+            color: rgb(255, 255, 255);
+        }
+
+        .edit{
+            position:absolute;
+            top: 0;
+            right: 120px;
+            border-radius: 10%;
+            padding: 8px;
+            color: rgb(255, 255, 255);
         }
 
         .delete:hover{
             cursor: pointer;
-            box-shadow: 1px 2px 3px rgba(0,0,0,0.2);
+            box-shadow: 1px 2px 3px crimson;
+            color: rgb(255, 255, 255);
+        }
+
+        .edit:hover{
+            cursor: pointer;
+            box-shadow: 1px 2px 3px crimson;
         }
         
         .novo form{
@@ -131,4 +169,12 @@
             border: 0;
             font-size: 1.2em;
             cursor: pointer;
+        }
+
+        .menu a{
+            background: crimson; 
+            color:aliceblue; 
+            border-radius:5px 5px 5px;
+            margin:10px;
+            padding:5px;
         }

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include ('./parciais/header.ejs')%>
+
+<body>
+    
+    <%- include ('./parciais/nav.ejs')%>
+    
+    <div class="detalhes">
+        <h2><%= farmacos.nome%></h2>
+        <div class="content">
+            <p> Quantidade: <%= farmacos.quantidade%></p>
+            <p> Setor: <%= farmacos.setor%></p>
+        </div>
+        <a class="delete" data-doc="<%=farmacos._id%>">DELETAR</a>
+        <a class="edit" data-doc="<%=farmacos._id%>">EDITAR</a>
+    </div>
+
+    <%- include('./parciais/footer.ejs')%>
+</body>
+</html>

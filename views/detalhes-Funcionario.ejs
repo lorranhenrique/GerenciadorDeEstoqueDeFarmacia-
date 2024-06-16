@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include ('./parciais/header.ejs')%>
+
+<body>
+    
+    <%- include ('./parciais/nav.ejs')%>
+    
+    <div class="detalhes">
+        <h2><%= usuarios.nome %></h2>
+        <div class="content">
+            <p><%= usuarios.cargo %></p>
+        </div>
+        <a class="delete" data-doc="<%=usuarios._id%>">DELETAR</a>
+        <a class="edit" data-doc="<%=usuarios._id%>">EDITAR</a>
+    </div>
+
+    <%- include('./parciais/footer.ejs')%>
+</body>
+</html>

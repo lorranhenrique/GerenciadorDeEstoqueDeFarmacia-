@@ -12,13 +12,14 @@
     </ul><br><br>
     
     <div class="produtos">
-        <h2>Todos os Funcionarios</h2>
+        <h2>Todos os Funcionários</h2>
 
         <% if (usuarios.length > 0){%>
         <% usuarios.forEach(usuarios => {%>
-
+        <a class="single" href="/usuarios/<%= usuarios._id%>">
             <h3 class="title"><%= usuarios.nome %></h3>
             <p class="quantidade"> Cargo: <%=usuarios.cargo%></p><br>
+        </a>
         <%})%>
         <%}else{%>
         <p>Nenhum Funcionário contratado</p>
