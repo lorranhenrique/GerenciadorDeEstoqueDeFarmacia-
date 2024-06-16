@@ -3,6 +3,7 @@ const morgan = require('morgan');
 const mongoose = require('mongoose');
 const storageRoutes = require('./routes/storageRoutes');
 const Farmaco = require('./models/farmaco');
+const Usuario = require('./models/usuario');
 
 
 const {result,sortedLastIndexOf}=require('lodash');
@@ -48,6 +49,27 @@ app.get('/about', (req,res)=>{
 
 //rotas de entrada
 
+app.get('/usuarios',(req,res)=>{
+    Usuario.find().sort({nome:1})
+        .then((result)=>{
+            res.render('storage',{title: 'Todos os Farmacos', farmacos: result})
+        })
+        .catch((err)=>{
+            console.log(err);
+        })
+})
+
+app.post('/usuarios',(req,res)=>{
+    const usuario = new Usuario(req.body);
+    usuario.save()
+        .then((result)=>{
+            res.redirect('/storage');
+        })
+        .catch((err)=>{
+            console.log(err);
+        })
+})
+
 app.get('/farmacos',(req,res)=>{
     Farmaco.find().sort({nome:1})
         .then((result)=>{
@@ -62,7 +84,6 @@ app.post('/farmacos',(req,res)=>{
     const farmaco = new Farmaco(req.body);
     farmaco.save()
         .then((result)=>{
-            console.log(req.body);
             res.redirect('/storage');
         })
         .catch((err)=>{
