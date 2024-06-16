@@ -2,6 +2,8 @@ const express = require('express');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const storageRoutes = require('./routes/storageRoutes');
+const Farmaco = require('./models/farmaco');
+
 
 const {result,sortedLastIndexOf}=require('lodash');
 const { title } = require('process');
@@ -11,38 +13,53 @@ const { title } = require('process');
 
 const app = express();
 
+
+
 //conectando o DB
+
+const dbURI = 'mongodb+srv://lorranhrezendea:test1234@farmacia.jnm2nm8.mongodb.net/dados?retryWrites=true&w=majority&appName=farmacia';
+mongoose.connect(dbURI)
+    .then((result)=>app.listen(3000))
+    .catch((err)=>console.log(err))
 
 //register view engine
 
 app.set('view engine','ejs');
 
-//listen to requests 
+app.use(express.static('public')); // permite indicar os arquivos e páginas públicas 
+app.use(morgan('dev')); // vai cuidar dos logs do middleware
 
-app.listen(3000);
+ // mongoose and mong sandbox routes
 
-//middleware static files 
-
- app.use(express.static('public')); // permite indicar os arquivos e páginas públicas 
- app.use(morgan('dev')); // vai cuidar dos logs do middleware
-
-
-app.get('/',(req,res)=>{
-    res.render('login',{title: 'login'});
-})
-
+ //rotas
+ 
 app.get('/storage',(req,res)=>{
-    const produtos = [
-        {nome: 'nesaldina', quantidade: 45, setor: 'a'},
-        {nome: 'Dipirona', quantidade: 20, setor: 'b'},
-        {nome: 'Tandrilax', quantidade: 90,setor: 'c'}
-    ];
-    res.render('storage',{title: 'Inicio',produtos});
+    res.redirect('/farmacos');
+});
+
+app.get('/about', (req,res)=>{
+    res.render('about',{title: 'Sobre'});
 });
 
 // app.get('/adm/storage',(req,res)=>{
 //     res.render('adm/storage',{title:'teste'});
 // })
+
+//rotas de entrada
+
+app.get('/farmacos',(req,res)=>{
+    Farmaco.find().sort()
+        .then((result)=>{
+            res.render('storage',{title: 'Todos os Farmacos', farmacos: result})
+        })
+        .catch((err)=>{
+            console.log(err);
+        })
+})
+
+app.get('/',(req,res)=>{
+    res.render('login',{title: 'login'});
+})
 
 app.get('/autentificar',(req,res)=>{
     res.render('autentificar',{title: 'autentificar'});
@@ -51,10 +68,6 @@ app.get('/autentificar',(req,res)=>{
 app.get('/contratar',(req,res)=>{
     res.render('contratar',{title: 'contratar'});
 })
-
-app.get('/about', (req,res)=>{
-    res.render('about',{title: 'Sobre'});
-});
 
 app.get('/create', (req,res)=>{
     res.render('create',{title: 'Novo'});
