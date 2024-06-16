@@ -6,6 +6,9 @@
 <body>
     
     <%- include ('./parciais/nav.ejs')%>
+    <ul>
+        <li><a href="/menu" style="background: crimson; color:aliceblue; border-radius:5px 5px 5px;padding:5px;">MENU</a></li>
+    </ul>
 
     <div class="novo">
         <form action="/usuarios" method="post">
@@ -16,7 +19,7 @@
             <label for="cargo">Cargo</label>
             <select name="cargo" id="cargo">
                 <option value="administrador">Administrador</option>
-                <option value="funcionario">Funcionário</option>
+                <option value="funcionário">Funcionário</option>
             </select required><br>
             <button>Cadastrar</button>
         </form>

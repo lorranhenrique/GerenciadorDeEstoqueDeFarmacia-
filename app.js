@@ -47,6 +47,10 @@ app.get('/about', (req,res)=>{
     res.render('about',{title: 'Sobre'});
 });
 
+app.get('/menu',(req,res)=>{
+    res.render('menu',{title: 'menu do adm'});
+})
+
 // app.get('/adm/storage',(req,res)=>{
 //     res.render('adm/storage',{title:'teste'});
 // })
@@ -67,7 +71,7 @@ app.post('/usuarios',(req,res)=>{
     const usuario = new Usuario(req.body);
     usuario.save()
         .then((result)=>{
-            res.redirect('/storage');
+            res.redirect('/menu');
         })
         .catch((err)=>{
             console.log(err);
