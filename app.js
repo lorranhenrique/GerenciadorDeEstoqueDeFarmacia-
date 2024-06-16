@@ -27,6 +27,7 @@ mongoose.connect(dbURI)
 app.set('view engine','ejs');
 
 app.use(express.static('public')); // permite indicar os arquivos e páginas públicas 
+app.use(express.urlencoded({extended:true})); // aceitar dados de formulario
 app.use(morgan('dev')); // vai cuidar dos logs do middleware
 
  // mongoose and mong sandbox routes
@@ -48,9 +49,21 @@ app.get('/about', (req,res)=>{
 //rotas de entrada
 
 app.get('/farmacos',(req,res)=>{
-    Farmaco.find().sort()
+    Farmaco.find().sort({nome:1})
         .then((result)=>{
             res.render('storage',{title: 'Todos os Farmacos', farmacos: result})
+        })
+        .catch((err)=>{
+            console.log(err);
+        })
+})
+
+app.post('/farmacos',(req,res)=>{
+    const farmaco = new Farmaco(req.body);
+    farmaco.save()
+        .then((result)=>{
+            console.log(req.body);
+            res.redirect('/storage');
         })
         .catch((err)=>{
             console.log(err);
