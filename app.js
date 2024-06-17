@@ -118,6 +118,7 @@ app.get('/farmacos/:id', (req,res)=>{
         })
 })
 
+
 app.get('/',(req,res)=>{
     res.render('login',{title: 'login'});
 })
