@@ -1,7 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
-const storageRoutes = require('./routes/storageRoutes');
+const storageRoutes = require('./routes/authRoutes');
 const Farmaco = require('./models/farmaco');
 const Usuario = require('./models/usuario');
 const {result,sortedLastIndexOf}=require('lodash');
@@ -30,7 +30,7 @@ app.use(morgan('dev')); // vai cuidar dos logs do middleware
 
  //rotas
 
- app.get('/',(req,res)=>{
+app.get('/',(req,res)=>{
     res.render('login',{title: 'login'});
 })
  
