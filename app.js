@@ -95,6 +95,19 @@ app.get('/usuarios/:id', (req,res)=>{
         })
 })
 
+app.delete('/usuarios/:id',(req,res)=>{
+    const id = req.params.id;
+
+    Usuario.findByIdAndDelete(id)
+        .then(result =>{
+            res.json({redirect: '/usuarios'})
+        })
+        .catch((err)=>{
+            console.log(err)
+        })
+})
+
+
 app.get('/farmacos',(req,res)=>{
     Farmaco.find().sort({nome:1})
         .then((result)=>{
@@ -124,6 +137,18 @@ app.get('/farmacos/:id', (req,res)=>{
         })
         .catch((err)=>{
             console.log(err);
+        })
+})
+
+app.delete('/farmacos/:id',(req,res)=>{
+    const id = req.params.id;
+
+    Farmaco.findByIdAndDelete(id)
+        .then(result =>{
+            res.json({redirect: '/farmacos'})
+        })
+        .catch((err)=>{
+            console.log(err)
         })
 })
 

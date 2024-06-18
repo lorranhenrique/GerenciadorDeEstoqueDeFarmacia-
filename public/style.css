@@ -45,6 +45,13 @@
             color: #777;
             font-weight: 300;
         }
+
+        nav a:hover{
+            background: crimson;
+            color: white;
+            padding: 5px;
+            border-radius: 7px;
+        }
         
         footer{
             color: #777;
@@ -78,6 +85,7 @@
             border: 0;
             font-size: 1.0em;
             cursor: pointer;
+            border-radius: 7px;
         }
 
         .produtos a:hover h3{
