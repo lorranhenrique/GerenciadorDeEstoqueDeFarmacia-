@@ -4,11 +4,8 @@ const mongoose = require('mongoose');
 const storageRoutes = require('./routes/storageRoutes');
 const Farmaco = require('./models/farmaco');
 const Usuario = require('./models/usuario');
-
-
 const {result,sortedLastIndexOf}=require('lodash');
 const { title } = require('process');
-
 
 //express app
 
@@ -32,6 +29,10 @@ app.use(morgan('dev')); // vai cuidar dos logs do middleware
  // mongoose and mong sandbox routes
 
  //rotas
+
+ app.get('/',(req,res)=>{
+    res.render('login',{title: 'login'});
+})
  
 app.get('/storage',(req,res)=>{
     res.redirect('/farmacos');
@@ -49,9 +50,17 @@ app.get('/menu',(req,res)=>{
     res.render('menu',{title: 'menu do adm'});
 })
 
-// app.get('/adm/storage',(req,res)=>{
-//     res.render('adm/storage',{title:'teste'});
-// })
+app.get('/autentificar',(req,res)=>{
+    res.render('autentificar',{title: 'autentificar'});
+})
+
+app.get('/contratar',(req,res)=>{
+    res.render('contratar',{title: 'contratar'});
+})
+
+app.get('/create', (req,res)=>{
+    res.render('create',{title: 'Novo'});
+});
 
 //rotas de entrada
 
@@ -118,30 +127,8 @@ app.get('/farmacos/:id', (req,res)=>{
         })
 })
 
-
-app.get('/',(req,res)=>{
-    res.render('login',{title: 'login'});
-})
-
-app.get('/autentificar',(req,res)=>{
-    res.render('autentificar',{title: 'autentificar'});
-})
-
-app.get('/contratar',(req,res)=>{
-    res.render('contratar',{title: 'contratar'});
-})
-
-app.get('/create', (req,res)=>{
-    res.render('create',{title: 'Novo'});
-});
-
 app.use((req,res)=>{
     res.status(404).render('404',{title: '404'});
 });
 
-// app.use(express.static('public'));
-// app.use(express.urlencoded({extended: true}));
-// app.use(morgan('dev'));
-
-//routes
 
