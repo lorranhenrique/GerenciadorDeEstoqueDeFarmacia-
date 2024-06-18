@@ -8,7 +8,7 @@
     <%- include ('./parciais/nav.ejs')%>
     
     <div class="detalhes">
-        <h2><%= farmacos.nome%></h2>
+        <h2><%= farmacos.nome %></h2>
         <div class="content">
             <p> Quantidade: <%= farmacos.quantidade%></p>
             <p> Setor: <%= farmacos.setor%></p>
@@ -27,12 +27,6 @@
 
             fetch(endpoint,{
                 method: 'DELETE'
-            })
-
-            .then((response)=>response.json())
-            .then((data)=> window.location.href = data.redirect)
-            .catch((err)=>{
-                console.log(err);
             })
         })
     </script>
