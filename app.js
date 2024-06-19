@@ -113,6 +113,43 @@ app.delete('/usuarios/:id',(req,res)=>{
         })
 })
 
+app.put('/usuarios/:id',(req,res)=>{
+    const id = req.params.id;
+
+    const updatedData = {
+        nome: req.body.nome,
+        senha: req.body.senha,
+        cargo: req.body.cargo
+    };
+
+    Usuario.findByIdAndUpdate(id, updatedData, { new: true })
+        .then(result => {
+            if (result) {
+                //console.log("Dados atualizados:", result);
+                res.json({ redirect: `/funcionarios` });
+            } else {
+                //console.error("Fármaco não encontrado para atualização");
+                res.status(404).json({ error: 'Usuario não encontrado' });
+            }
+        })
+        .catch(err => {
+            //console.error("Erro ao atualizar fármaco:", err);
+            res.status(500).json({ error: 'Erro ao atualizar Funcionário' });
+        });
+
+})
+
+app.get('/usuarios/:id',(req,res)=>{
+    const id = req.params.id;
+    Usuario.findById(id)
+        .then(result => {
+            res.render('detalhes-Funcionario', { usuarios: result, title: 'Gerenciando Funcionários' });
+        })
+        .catch(err => {
+            console.log(err);
+        });
+})
+
 
 app.get('/farmacos',(req,res)=>{
     Farmaco.find().sort({nome:1})
@@ -174,15 +211,15 @@ app.put('/farmacos/:id', (req, res) => {
     Farmaco.findByIdAndUpdate(id, updatedData, { new: true })
         .then(result => {
             if (result) {
-                //console.log("Dados atualizados:", result);
+                console.log("Dados atualizados:", result);
                 res.json({ redirect: `/storage` });
             } else {
-                //console.error("Fármaco não encontrado para atualização");
+                console.error("Fármaco não encontrado para atualização");
                 res.status(404).json({ error: 'Fármaco não encontrado' });
             }
         })
         .catch(err => {
-            //console.error("Erro ao atualizar fármaco:", err);
+            console.error("Erro ao atualizar fármaco:", err);
             res.status(500).json({ error: 'Erro ao atualizar o fármaco' });
         });
 });

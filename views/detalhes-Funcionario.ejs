@@ -16,10 +16,75 @@
         <a class="edit" data-doc="<%=usuarios._id%>">EDITAR</a>
     </div>
 
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close"> &times; </span>
+            <h2>Editar Funcionário</h2>
+            <form id="editForm">
+                <label for="nome">Nome:</label>
+                <input type="text" id="nome" name="nome" value="<%= usuarios.nome %>" required>
+
+                <label for="senha">Senha</label>
+                <input type="text" id="senha" name="senha" value="<%= usuarios.senha %>" required>
+
+                <label for="setor">Cargo:</label>
+                <select name="cargo" id="cargo">
+                    <option value="Administrador">Administrador</option>
+                    <option value="Funcioário">Funcioário</option>
+                </select required><br>
+
+                <button type="submit">Salvar Alterações</button>
+            </form>
+        </div>
+    </div>
+
     <%- include('./parciais/footer.ejs')%>
 
     <script>
         const lixo = document.querySelector('a.delete');
+        const modal = document.getElementById("editModal");
+        const btnEdit = document.querySelector('a.edit');
+        const span = document.getElementsByClassName("close")[0];
+
+        btnEdit.onclick = function(){
+            modal.style.display = 'block';
+        }
+
+        span.onclick = function(){
+            modal.style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        const form = document.getElementById("editForm");
+        form.addEventListener('submit',function(e) {
+            e.preventDefault();
+
+            const endpoint = `/usuarios/<%= usuarios._id %>`;
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData);
+
+            fetch(endpoint, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.redirect) {
+                    window.location.href = data.redirect;
+                } else {
+                    console.error('Falha ao redirecionar após atualização');
+                }
+            })
+            .catch(err => console.error('Erro na atualização:', err));
+        })
 
         lixo.addEventListener('click',(e)=>{
             const endpoint = `/usuarios/${lixo.dataset.doc}`;
