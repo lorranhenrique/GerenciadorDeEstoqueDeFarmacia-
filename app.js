@@ -84,7 +84,7 @@ app.post('/usuarios',(req,res)=>{
     const usuario = new Usuario(req.body);
     usuario.save()
         .then((result)=>{
-            res.redirect('/menu');
+            res.redirect('/funcionarios');
         })
         .catch((err)=>{
             console.log(err);

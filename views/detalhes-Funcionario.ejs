@@ -29,8 +29,9 @@
 
                 <label for="setor">Cargo:</label>
                 <select name="cargo" id="cargo">
+                    <option value="<%= usuarios.cargo %>">Administrador</option>
                     <option value="Administrador">Administrador</option>
-                    <option value="Funcioário">Funcioário</option>
+                    <option value="Funcionário">Funcionário</option>
                 </select required><br>
 
                 <button type="submit">Salvar Alterações</button>
