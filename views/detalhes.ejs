@@ -1,26 +1,96 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<%- include ('./parciais/header.ejs')%>
-
+<head>
+    <%- include ('./parciais/header.ejs')%>
+    <title><%= title %></title>
+</head>
 <body>
-    
     <%- include ('./parciais/nav.ejs')%>
-    
+
     <div class="detalhes">
         <h2><%= farmacos.nome %></h2>
         <div class="content">
-            <p> Quantidade: <%= farmacos.quantidade%></p>
-            <p> Setor: <%= farmacos.setor%></p>
+            <p>Quantidade: <%= farmacos.quantidade %></p>
+            <p>Setor: <%= farmacos.setor %></p>
         </div>
-        <a class="delete" data-doc="<%=farmacos._id%>">DELETAR</a>
-        <a class="edit" data-doc="<%=farmacos._id%>">EDITAR</a>
+        <a class="delete" data-doc="<%= farmacos._id %>">DELETAR</a>
+        <a class="edit" data-doc="<%= farmacos._id %>">EDITAR</a>
+    </div>
+
+    <!-- Modal de Edição -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close"> &times; </span>
+            <h2>Editar Fármaco</h2>
+            <form id="editForm">
+                <label for="nome">Nome:</label>
+                <input type="text" id="nome" name="nome" value="<%= farmacos.nome %>" required>
+
+                <label for="quantidade">Quantidade:</label>
+                <input type="number" id="quantidade" name="quantidade" value="<%= farmacos.quantidade %>" required>
+
+                <label for="setor">Setor:</label>
+                <input type="text" id="setor" name="setor" value="<%= farmacos.setor %>" required>
+
+                <button type="submit">Salvar Alterações</button>
+            </form>
+        </div>
     </div>
 
     <%- include('./parciais/footer.ejs')%>
 
     <script>
+        // JavaScript para o Modal
         const lixo = document.querySelector('a.delete');
+        const modal = document.getElementById("editModal");
+        const btnEdit = document.querySelector('a.edit');
+        const span = document.getElementsByClassName("close")[0];
+
+        // Abrir o modal ao clicar em "EDITAR"
+        btnEdit.onclick = function() {
+            modal.style.display = "block";
+        }
+
+        // Fechar o modal ao clicar no "X"
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        // Fechar o modal ao clicar fora do conteúdo
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        // Manipular o envio do formulário de edição
+        const form = document.getElementById("editForm");
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const endpoint = `/farmacos/<%= farmacos._id %>`;
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData);
+
+            console.log("Dados enviados:", data);
+
+            fetch(endpoint, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.redirect) {
+                    window.location.href = data.redirect;
+                } else {
+                    console.error('Falha ao redirecionar após atualização');
+                }
+            })
+            .catch(err => console.error('Erro na atualização:', err));
+        })
 
         lixo.addEventListener('click',(e)=>{
             const endpoint = `/farmacos/${lixo.dataset.doc}`;
@@ -28,9 +98,12 @@
             fetch(endpoint,{
                 method: 'DELETE'
             })
+
             .then((response)=>response.json())
             .then((data)=> window.location.href = data.redirect)
-            .catch(err => console.log(err));
+            .catch((err)=>{
+                console.log(err);
+            })
         })
     </script>
 </body>
