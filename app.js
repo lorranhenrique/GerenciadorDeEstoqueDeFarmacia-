@@ -8,10 +8,10 @@ const {result,sortedLastIndexOf}=require('lodash');
 const { title } = require('process');
 const methodOverride = require('method-override');
 const cors = require('cors');
-
-
-//express app
-
+const bycript = require('bcrypt');
+const session = require('express-session');
+const bodyParser = require('body-parser');
+const jwt = require('jsonwebtoken');
 const app = express();
 
 //conectando o DB
@@ -34,14 +34,73 @@ app.use(morgan('dev')); // vai cuidar dos logs do middleware
 
  // mongoose and mong sandbox routes
 
+ //middleware para verificar token 
+
+ const verificarToken = (req, res, next) => {
+    const token = req.headers['authorization']?.split(' ')[1]; // Extrai o token do cabeçalho Authorization
+
+    if (!token) {
+        return res.status(401).send('Acesso não autorizado: Token não fornecido.');
+    }
+
+    try {
+        const decoded = jwt.verify(token, SECRET_KEY);
+        req.cargo = decoded.cargo;  // Adiciona o cargo ao request para uso posterior
+        next();  // Passa para o próximo middleware ou rota
+    } catch (err) {
+        res.status(401).send('Token inválido ou expirado.');
+    }
+};
+ //autentificação 
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+app.use(session({
+    secret: 'segredo_super_secreto',
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: false } // Em produção, deve ser true com HTTPS
+}));
+
+const SECRET_KEY = 'seu_segredo_super_secreto';
+
+// Rota de login
+app.post('/login', async (req, res) => {
+    const { login, senha } = req.body;
+    
+    try {
+        // Usar findOne para buscar um único usuário
+        const usuario = await Usuario.findOne({ nome: login });
+        
+        if (usuario && usuario.senha === senha) {
+            // Criar um token JWT com o cargo do usuário
+            const token = jwt.sign({ cargo: usuario.cargo }, SECRET_KEY, { expiresIn: '1h' });
+
+            // Redirecionar para /storage com o token como parâmetro de consulta
+            res.redirect(`/storage?token=${token}`);
+        } else {
+            res.status(401).send('Credenciais inválidas.');
+        }
+    } catch (err) {
+        console.error('Erro ao processar login:', err);
+        res.status(500).send('Erro no servidor.');
+    }
+});
+
+app.get('/logout', (req, res) => {
+    req.session.destroy(err => {
+        if (err) {
+            return res.status(500).send('Erro ao fazer logout.');
+        }
+        res.redirect('/');
+    });
+});
+
  //rotas
 
-app.get('/',(req,res)=>{
-    res.render('login',{title: 'login'});
-})
- 
 app.get('/storage',(req,res)=>{
-    res.redirect('/farmacos');
+   res.redirect('/farmacos');
 });
 
 app.get('/funcionarios',(req,res)=>{
@@ -68,7 +127,19 @@ app.get('/create', (req,res)=>{
     res.render('create',{title: 'Novo'});
 });
 
+
 //rotas de entrada
+
+app.get('/',(req,res)=>{
+    Usuario.find().sort({nome:1})
+    .then((result)=>{
+        res.render('login',{title: 'login', usuarios: result});
+    })
+    .catch((err)=>{
+        console.log(err);
+    })
+    
+})
 
 app.get('/usuarios',(req,res)=>{
     Usuario.find().sort({nome:1})
