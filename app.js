@@ -12,6 +12,8 @@ const bycript = require('bcrypt');
 const session = require('express-session');
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
+
+
 const app = express();
 
 //conectando o DB

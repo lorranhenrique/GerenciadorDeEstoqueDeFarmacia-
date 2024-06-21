@@ -9,28 +9,73 @@
 
     <div class="produtos">
         <input type="text" name="busca" id="busca" style="width: 400px;" value="" placeholder="Insira o nome do produto">
-        <button>Buscar</button>
+        <button id="btn">Buscar</button>
     </div><br><br>
     
-    <div class="produtos">
+    <div class="produtos" id="produtos-container">
         <h2>Todos os Produtos</h2>
-
-        <% if (farmacos.length > 0){%>
-        <% farmacos.forEach(farmacos => {%>
-        <a class="single" href="/farmacos/<%= farmacos._id %>">
-            <h3 class="title"><%= farmacos.nome %></h3>
-            <p class="quantidade"> quant: <%= farmacos.quantidade %></p>
-            <p class="quantidade"> setor: <%=farmacos.setor%></p><br>
-        </a>
-        <%})%>
-        <%}else{%>
-        <p>Nenhuma medicação encontrada</p>
-            <%}%>
-
+        <% if (farmacos.length > 0) { %>
+            <% farmacos.forEach(farmaco => { %>
+                <a class="single produto-item" data-nome="<%= farmaco.nome %>" data-quantidade="<%= farmaco.quantidade %>" data-setor="<%= farmaco.setor %>" href="/farmacos/<%= farmaco._id %>">
+                    <h3 class="title"><%= farmaco.nome %></h3>
+                    <p class="quantidade"> quant: <%= farmaco.quantidade %></p>
+                    <p class="quantidade"> setor: <%= farmaco.setor %></p><br>
+                </a>
+            <% }) %>
+        <% } else { %>
+            <p>Nenhuma medicação encontrada</p>
+        <% } %>
     </div>
 
-    
-    <%- include('./parciais/footer.ejs')%>
+    <%- include('./parciais/footer.ejs') %>
+
+    <script>
+        // Função para renderizar os produtos
+        function renderizarProdutos(produtos) {
+            const container = document.getElementById('produtos-container');
+            container.innerHTML = '<h2>Todos os Produtos</h2>';
+
+            if (produtos.length > 0) {
+                produtos.forEach(produto => {
+                    container.appendChild(produto);
+                });
+            } else {
+                container.innerHTML += '<p>Nenhuma medicação encontrada</p>';
+            }
+        }
+
+        // Função para ordenar produtos colocando os que correspondem ao termo de busca primeiro
+        function ordenarProdutos(produtos, termoBusca) {
+            return produtos.sort((a, b) => {
+                const nomeA = a.getAttribute('data-nome').toLowerCase();
+                const nomeB = b.getAttribute('data-nome').toLowerCase();
+                const busca = termoBusca.toLowerCase();
+
+                // Priorizar os produtos que contêm o termo de busca
+                const aContemBusca = nomeA.includes(busca);
+                const bContemBusca = nomeB.includes(busca);
+
+                if (aContemBusca && !bContemBusca) return -1;
+                if (!aContemBusca && bContemBusca) return 1;
+
+                // Se ambos ou nenhum contêm o termo de busca, ordenar alfabeticamente
+                return nomeA.localeCompare(nomeB);
+            });
+        }
+
+        document.getElementById('btn').addEventListener('click', () => {
+            const termoBusca = document.getElementById('busca').value;
+
+            // Selecionar todos os produtos renderizados inicialmente
+            const produtos = Array.from(document.getElementsByClassName('produto-item'));
+
+            // Ordenar os produtos com base no termo de busca e nome
+            const produtosOrdenados = ordenarProdutos(produtos, termoBusca);
+
+            // Renderizar os produtos na nova ordem
+            renderizarProdutos(produtosOrdenados);
+        });
+    </script>
 
 </body>
 </html>
