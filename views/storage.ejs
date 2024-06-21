@@ -30,6 +30,19 @@
     <%- include('./parciais/footer.ejs') %>
 
     <script>
+
+        document.getElementById('btn').addEventListener('click', (e) => {
+            const termoBusca = document.getElementById('busca').value;
+
+            // Selecionar todos os produtos renderizados inicialmente
+            const produtos = Array.from(document.getElementsByClassName('produto-item'));
+
+            // Ordenar os produtos com base no termo de busca e nome
+            const produtosOrdenados = ordenarProdutos(produtos, termoBusca);
+
+            // Renderizar os produtos na nova ordem
+            renderizarProdutos(produtosOrdenados);
+        });
         // Função para renderizar os produtos
         function renderizarProdutos(produtos) {
             const container = document.getElementById('produtos-container');
@@ -63,18 +76,6 @@
             });
         }
 
-        document.getElementById('btn').addEventListener('click', () => {
-            const termoBusca = document.getElementById('busca').value;
-
-            // Selecionar todos os produtos renderizados inicialmente
-            const produtos = Array.from(document.getElementsByClassName('produto-item'));
-
-            // Ordenar os produtos com base no termo de busca e nome
-            const produtosOrdenados = ordenarProdutos(produtos, termoBusca);
-
-            // Renderizar os produtos na nova ordem
-            renderizarProdutos(produtosOrdenados);
-        });
     </script>
 
 </body>
