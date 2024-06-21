@@ -8,15 +8,28 @@
     <%- include ('./parciais/nav.ejs')%>
 
     <div class="novo">
-        <form action="/funcionarios" method="get">
+        <form action="/autentificar" method="post">
             <label for="login">Administrador</label>
             <input type="text" name="login" id="login" required>
             <label for="senha">Senha</label>
             <input type="password" name="senha" id="senha" required>
-            <button>Autentificar</button>
+            <button id="enviar">Autentificar</button>
         </form>
     </div>
 
     <%- include('./parciais/footer.ejs')%>
+
+    <script>
+        document.getElementById('enviar').addEventListener('click', (e) => {
+            // A validação deve ser mínima aqui, apenas verificando se os campos não estão vazios.
+            const user = document.getElementById('login').value;
+            const senha = document.getElementById('senha').value;
+        
+            if (user === '' || senha === '') {
+                e.preventDefault();  // Impede o envio do formulário se os campos estiverem vazios.
+                alert('Por favor, preencha todos os campos.');
+            }
+        });
+    </script>
 </body>
 </html>

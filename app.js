@@ -63,7 +63,7 @@ app.use(session({
     cookie: { secure: false } // Em produção, deve ser true com HTTPS
 }));
 
-const SECRET_KEY = 'seu_segredo_super_secreto';
+const SECRET_KEY = 'né segredo';
 
 // Rota de login
 app.post('/login', async (req, res) => {
@@ -74,11 +74,29 @@ app.post('/login', async (req, res) => {
         const usuario = await Usuario.findOne({ nome: login });
         
         if (usuario && usuario.senha === senha) {
-            // Criar um token JWT com o cargo do usuário
             const token = jwt.sign({ cargo: usuario.cargo }, SECRET_KEY, { expiresIn: '1h' });
 
-            // Redirecionar para /storage com o token como parâmetro de consulta
             res.redirect(`/storage?token=${token}`);
+        } else {
+            res.status(401).send('Credenciais inválidas.');
+        }
+    } catch (err) {
+        console.error('Erro ao processar login:', err);
+        res.status(500).send('Erro no servidor.');
+    }
+});
+
+app.post('/autentificar', async (req, res) => {
+    const { login, senha } = req.body;
+    
+    try {
+        // Usar findOne para buscar um único usuário
+        const usuario = await Usuario.findOne({ nome: login });
+        
+        if (usuario && usuario.senha === senha && usuario.cargo === "Administrador") {
+            const token = jwt.sign({ cargo: usuario.cargo }, SECRET_KEY, { expiresIn: '1h' });
+
+            res.redirect(`/funcionarios?token=${token}`);
         } else {
             res.status(401).send('Credenciais inválidas.');
         }

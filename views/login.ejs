@@ -25,30 +25,14 @@
     <%- include('./parciais/footer.ejs')%>
 
     <script>
-        document.getElementById('login').addEventListener('submit', async (e) => {
-            e.preventDefault();  // Previne o comportamento padrão do formulário
-
-            const login = document.getElementById('login').value;
+        document.getElementById('enviar').addEventListener('click', (e) => {
+            // A validação deve ser mínima aqui, apenas verificando se os campos não estão vazios.
+            const user = document.getElementById('login').value;
             const senha = document.getElementById('senha').value;
-
-            try {
-                const response = await fetch('/login', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ login, senha })
-                });
-
-                if (response.ok) {
-                    const data = await response.json();
-                    localStorage.setItem('token', data.token); // Armazena o token no localStorage
-                    window.location.href = '/storage'; // Redireciona para a página de storage
-                } else {
-                    alert('Credenciais inválidas.');
-                }
-            } catch (error) {
-                console.error('Erro ao fazer login:', error);
+        
+            if (user === '' || senha === '') {
+                e.preventDefault();  // Impede o envio do formulário se os campos estiverem vazios.
+                alert('Por favor, preencha todos os campos.');
             }
         });
     </script>
