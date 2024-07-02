@@ -78,7 +78,7 @@ app.post('/login', async (req, res) => {
 
             res.redirect(`/storage?token=${token}`);
         } else {
-            res.status(401).send('Credenciais inválidas.');
+            res.status(401).redirect('/?error=senha_invalida');
         }
     } catch (err) {
         console.error('Erro ao processar login:', err);
@@ -98,7 +98,7 @@ app.post('/autentificar', async (req, res) => {
 
             res.redirect(`/funcionarios?token=${token}`);
         } else {
-            res.status(401).send('Credenciais inválidas.');
+            res.status(401).redirect('/autentificar?error=senha_invalida');
         }
     } catch (err) {
         console.error('Erro ao processar login:', err);
