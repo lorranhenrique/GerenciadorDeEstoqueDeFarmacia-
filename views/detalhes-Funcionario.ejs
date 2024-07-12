@@ -25,11 +25,11 @@
                 <input type="text" id="nome" name="nome" value="<%= usuarios.nome %>" required>
 
                 <label for="senha">Senha</label>
-                <input type="text" id="senha" name="senha" value="<%= usuarios.senha %>" required>
+                <input type="text" id="senha" name="senha" value="" placeholder="Insira a nova senha" required>
 
                 <label for="setor">Cargo:</label>
                 <select name="cargo" id="cargo">
-                    <option value="<%= usuarios.cargo %>">Administrador</option>
+                    <option value="<%= usuarios.cargo %>">Cargo</option>
                     <option value="Administrador">Administrador</option>
                     <option value="Funcionário">Funcionário</option>
                 </select required><br>

@@ -7,30 +7,31 @@
     
     <%- include ('./parciais/nav.ejs')%>
 
-    <div class="produtos">
+    <div class="busca">
         <input type="text" name="busca" id="busca" style="width: 400px;" value="" placeholder="Insira o nome do produto">
         <button id="btn">Buscar</button>
     </div><br><br>
     
-    <div class="produtos" id="produtos-container">
-        <h2>Todos os Produtos</h2>
-        <% if (farmacos.length > 0) { %>
-            <% farmacos.forEach(farmaco => { %>
-                <a class="single produto-item" data-nome="<%= farmaco.nome %>" data-quantidade="<%= farmaco.quantidade %>" data-setor="<%= farmaco.setor %>" href="/farmacos/<%= farmaco._id %>">
-                    <h3 class="title"><%= farmaco.nome %></h3>
-                    <p class="quantidade"> quant: <%= farmaco.quantidade %></p>
-                    <p class="quantidade"> setor: <%= farmaco.setor %></p><br>
-                </a>
-            <% }) %>
-        <% } else { %>
-            <p>Nenhuma medicação encontrada</p>
-        <% } %>
+    <div class="produtos-container" id="produtos-container">
+        <h2>Todos os Produtos</h2><br>
+        <div class="produtos" id="produtos-grid">
+            <% if (farmacos.length > 0) { %>
+                <% farmacos.forEach(farmaco => { %>
+                    <a class="single produto-item" data-nome="<%= farmaco.nome %>" data-quantidade="<%= farmaco.quantidade %>" data-setor="<%= farmaco.setor %>" href="/farmacos/<%= farmaco._id %>">
+                        <h3 class="title"><%= farmaco.nome %></h3>
+                        <p class="quantidade"> quant: <%= farmaco.quantidade %></p>
+                        <p class="quantidade"> setor: <%= farmaco.setor %></p><br>
+                    </a>
+                <% }) %>
+            <% } else { %>
+                <p>Nenhuma medicação encontrada</p>
+            <% } %>
+        </div>
     </div>
 
     <%- include('./parciais/footer.ejs') %>
 
     <script>
-
         document.getElementById('btn').addEventListener('click', (e) => {
             const termoBusca = document.getElementById('busca').value;
 
@@ -43,17 +44,18 @@
             // Renderizar os produtos na nova ordem
             renderizarProdutos(produtosOrdenados);
         });
+
         // Função para renderizar os produtos
         function renderizarProdutos(produtos) {
-            const container = document.getElementById('produtos-container');
-            container.innerHTML = '<h2>Todos os Produtos</h2>';
+            const grid = document.getElementById('produtos-grid');
+            grid.innerHTML = '';
 
             if (produtos.length > 0) {
                 produtos.forEach(produto => {
-                    container.appendChild(produto);
+                    grid.appendChild(produto);
                 });
             } else {
-                container.innerHTML += '<p>Nenhuma medicação encontrada</p>';
+                grid.innerHTML = '<p>Nenhuma medicação encontrada</p>';
             }
         }
 
@@ -75,7 +77,6 @@
                 return nomeA.localeCompare(nomeB);
             });
         }
-
     </script>
 
 </body>

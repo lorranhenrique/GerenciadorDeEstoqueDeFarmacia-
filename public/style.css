@@ -88,6 +88,15 @@
             border-radius: 7px;
         }
 
+        .busca button{
+            background: crimson;
+            color: white;
+            border: 0;
+            font-size: 1.0em;
+            cursor: pointer;
+            border-radius: 7px;
+        }
+
         .produtos a:hover h3{
             color: crimson;
         }
@@ -285,4 +294,27 @@
             color:aliceblue; 
             border-radius:5px 5px 5px;
             padding:5px;
+        }
+
+        .produtos {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .single produto-item {
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .title {
+            font-size: 18px;
+            margin: 0 0 10px;
+        }
+
+        .quantidade {
+            font-size: 14px;
+            margin: 0;
         }
