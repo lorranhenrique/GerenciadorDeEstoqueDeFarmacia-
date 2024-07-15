@@ -2,8 +2,9 @@ const express = require('express');
 const router = express.Router();
 const Farmaco = require('../models/farmaco');
 const Usuario = require('../models/usuario');
+const {requireAuth} = require('../middleware/authMiddleware');
 
-router.get('/farmacos',(req,res)=>{
+router.get('/farmacos',requireAuth,(req,res)=>{
     Farmaco.find().sort({nome:1})
         .then((result)=>{
             res.render('storage',{title: 'Todos os Farmacos', farmacos: result})
@@ -13,7 +14,7 @@ router.get('/farmacos',(req,res)=>{
         })
 })
 
-router.post('/farmacos',(req,res)=>{
+router.post('/farmacos',requireAuth,(req,res)=>{
     const farmaco = new Farmaco(req.body);
     farmaco.save()
         .then((result)=>{
@@ -24,7 +25,7 @@ router.post('/farmacos',(req,res)=>{
         })
 })
 
-router.get('/farmacos/:id', (req,res)=>{
+router.get('/farmacos/:id',requireAuth, (req,res)=>{
     const id= req.params.id;
     Farmaco.findById(id)
         .then(result=>{
@@ -35,7 +36,7 @@ router.get('/farmacos/:id', (req,res)=>{
         })
 })
 
-router.delete('/farmacos/:id',(req,res)=>{
+router.delete('/farmacos/:id',requireAuth,(req,res)=>{
     const id = req.params.id;
     
     Farmaco.findByIdAndDelete(id)
@@ -47,11 +48,9 @@ router.delete('/farmacos/:id',(req,res)=>{
         })
 })
 
-// Rota para atualizar o fármaco
-router.put('/farmacos/:id', (req, res) => {
+router.put('/farmacos/:id',requireAuth, (req, res) => {
     const id = req.params.id;
 
-    // Logs para verificar os dados recebidos
     //console.log("Dados recebidos para atualização:", req.body);
 
     const updatedData = {
@@ -77,7 +76,7 @@ router.put('/farmacos/:id', (req, res) => {
 });
 
 // Rota para mostrar os detalhes do fármaco
-router.get('/farmacos/:id', (req, res) => {
+router.get('/farmacos/:id',requireAuth, (req, res) => {
     const id = req.params.id;
     Farmaco.findById(id)
         .then(result => {

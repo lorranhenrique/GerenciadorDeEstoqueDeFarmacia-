@@ -35,17 +35,13 @@
         document.getElementById('btn').addEventListener('click', (e) => {
             const termoBusca = document.getElementById('busca').value;
 
-            // Selecionar todos os produtos renderizados inicialmente
             const produtos = Array.from(document.getElementsByClassName('produto-item'));
 
-            // Ordenar os produtos com base no termo de busca e nome
             const produtosOrdenados = ordenarProdutos(produtos, termoBusca);
 
-            // Renderizar os produtos na nova ordem
             renderizarProdutos(produtosOrdenados);
         });
 
-        // Função para renderizar os produtos
         function renderizarProdutos(produtos) {
             const grid = document.getElementById('produtos-grid');
             grid.innerHTML = '';
@@ -58,22 +54,18 @@
                 grid.innerHTML = '<p>Nenhuma medicação encontrada</p>';
             }
         }
-
-        // Função para ordenar produtos colocando os que correspondem ao termo de busca primeiro
         function ordenarProdutos(produtos, termoBusca) {
             return produtos.sort((a, b) => {
                 const nomeA = a.getAttribute('data-nome').toLowerCase();
                 const nomeB = b.getAttribute('data-nome').toLowerCase();
                 const busca = termoBusca.toLowerCase();
 
-                // Priorizar os produtos que contêm o termo de busca
                 const aContemBusca = nomeA.includes(busca);
                 const bContemBusca = nomeB.includes(busca);
 
                 if (aContemBusca && !bContemBusca) return -1;
                 if (!aContemBusca && bContemBusca) return 1;
 
-                // Se ambos ou nenhum contêm o termo de busca, ordenar alfabeticamente
                 return nomeA.localeCompare(nomeB);
             });
         }

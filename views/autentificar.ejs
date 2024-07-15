@@ -28,12 +28,11 @@
             }
         }
         document.getElementById('enviar').addEventListener('click', (e) => {
-            // A validação deve ser mínima aqui, apenas verificando se os campos não estão vazios.
             const user = document.getElementById('login').value;
             const senha = document.getElementById('senha').value;
         
             if (user === '' || senha === '') {
-                e.preventDefault();  // Impede o envio do formulário se os campos estiverem vazios.
+                e.preventDefault();  
                 alert('Por favor, preencha todos os campos.');
             }
         });

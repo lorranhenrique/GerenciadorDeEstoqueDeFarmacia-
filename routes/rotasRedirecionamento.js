@@ -4,33 +4,34 @@ const Farmaco = require('../models/farmaco');
 const Usuario = require('../models/usuario');
 const jwt = require('jsonwebtoken');
 const SECRET_KEY = 'né segredo';
+const {requireAuth} = require('../middleware/authMiddleware');
 
 
-router.get('/storage',(req,res)=>{
+router.get('/storage',requireAuth,(req,res)=>{
     res.redirect('/farmacos');
  });
  
- router.get('/funcionarios',(req,res)=>{
+ router.get('/funcionarios',requireAuth,(req,res)=>{
      res.redirect('/usuarios');
  })
  
- router.get('/about', (req,res)=>{
+ router.get('/about',requireAuth, (req,res)=>{
      res.render('about',{title: 'Sobre'});
  });
  
- router.get('/menu',(req,res)=>{
+ router.get('/menu',requireAuth,(req,res)=>{
      res.render('menu',{title: 'menu do adm'});
  })
  
- router.get('/autentificar',(req,res)=>{
+ router.get('/autentificar',requireAuth,(req,res)=>{
      res.render('autentificar',{title: 'autentificar'});
  })
  
- router.get('/contratar',(req,res)=>{
+ router.get('/contratar',requireAuth,(req,res)=>{
      res.render('contratar',{title: 'contratar'});
  })
  
- router.get('/create', (req,res)=>{
+ router.get('/create',requireAuth, (req,res)=>{
      res.render('create',{title: 'Novo'});
  });
 

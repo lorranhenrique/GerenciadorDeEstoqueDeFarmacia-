@@ -2,10 +2,10 @@ const express = require('express');
 const router = express.Router();
 const Farmaco = require('../models/farmaco');
 const Usuario = require('../models/usuario');
+const {requireAuth} = require('../middleware/authMiddleware');
 
 
-
-router.get('/usuarios',(req,res)=>{
+router.get('/usuarios',requireAuth,(req,res)=>{
     Usuario.find().sort({nome:1})
         .then((result)=>{
             res.render('funcionarios',{title: 'Todos os Funcionarios', usuarios: result})
@@ -15,7 +15,7 @@ router.get('/usuarios',(req,res)=>{
         })
 })
 
-router.post('/usuarios',(req,res)=>{
+router.post('/usuarios',requireAuth,(req,res)=>{
     const usuario = new Usuario(req.body);
     usuario.save()
         .then((result)=>{
@@ -25,7 +25,7 @@ router.post('/usuarios',(req,res)=>{
             console.log(err);
         })
 })
-router.get('/usuarios/:id', (req,res)=>{
+router.get('/usuarios/:id',requireAuth, (req,res)=>{
     const id= req.params.id;
     Usuario.findById(id)
         .then((result)=>{
@@ -36,7 +36,7 @@ router.get('/usuarios/:id', (req,res)=>{
         })
 })
 
-router.delete('/usuarios/:id',(req,res)=>{
+router.delete('/usuarios/:id',requireAuth,(req,res)=>{
     const id = req.params.id;
 
     Usuario.findByIdAndDelete(id)
@@ -48,7 +48,7 @@ router.delete('/usuarios/:id',(req,res)=>{
         })
 })
 
-router.put('/usuarios/:id',(req,res)=>{
+router.put('/usuarios/:id',requireAuth,(req,res)=>{
     const id = req.params.id;
 
     const updatedData = {
@@ -74,7 +74,7 @@ router.put('/usuarios/:id',(req,res)=>{
 
 })
 
-router.get('/usuarios/:id',(req,res)=>{
+router.get('/usuarios/:id',requireAuth,(req,res)=>{
     const id = req.params.id;
     Usuario.findById(id)
         .then(result => {
